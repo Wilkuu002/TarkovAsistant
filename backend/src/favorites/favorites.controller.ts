@@ -1,58 +1,39 @@
-import { Controller, Post, Delete, Get, Body, Query, Headers, UnauthorizedException } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse,ApiBearerAuth,ApiBody } from '@nestjs/swagger';
+import { Controller, Post, Delete, Get, Body, Query, Req,UseGuards } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiBody } from '@nestjs/swagger';
 import { FavoritesService } from './favorites.service';
-import { FirebaseService } from '../auth/firebase.service';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @ApiTags('Favorites')
 @ApiBearerAuth()
 @Controller('favorites')
 export class FavoritesController {
-  constructor(
-    private readonly favoritesService: FavoritesService,
-    private readonly firebaseService: FirebaseService,
-  ) {}
-
-  async validateUser(token: string) {
-    if (!token) {
-      throw new UnauthorizedException('Token is required');
-    }
-    const decodedToken = await this.firebaseService.verifyToken(token);
-    return decodedToken.uid;
-  }
+  constructor(private readonly favoritesService: FavoritesService) {}
 
   @Post()
-  @ApiOperation({ summary: 'Add an item to favorites using normalizedName' })
+  @ApiOperation({ summary: 'Add an item to favorites by name' })
+  @UseGuards(AuthGuard)
   @ApiResponse({ status: 200, description: 'Item added to favorites' })
   @ApiResponse({ status: 404, description: 'Item was not added to favorites' })
-  @ApiBody({ schema: { type: 'object', properties: { normalizedName: { type: 'string' } } } }) // Swagger pokaże pole tekstowe
-  async addFavorite(
-    @Headers('Authorization') authHeader: string,
-    @Body('normalizedName') normalizedName: string,
-  ) {
-    const token = authHeader?.split('Bearer ')[1];
-    const userId = await this.validateUser(token);
-    return this.favoritesService.addFavoriteItem(userId, normalizedName);
+  @ApiBody({ schema: { type: 'object', properties: { normalizedName: { type: 'string' } } } }) 
+  async addFavorite(@Req() req, @Body('normalizedName') normalizedName: string) {
+    return this.favoritesService.addFavoriteItem(req.user.uid, normalizedName);
   }
+
   @Delete()
-  @ApiOperation({ summary: 'Remove an item from favorites using normalizedName' })
+  @UseGuards(AuthGuard)
+  @ApiOperation({ summary: 'Remove an item from favorites by name' })
   @ApiResponse({ status: 200, description: 'Item removed from favorites' })
-  @ApiResponse({ status: 404, description: 'Item was npt removed from favorites' })
-  async removeFavorite(
-    @Headers('Authorization') authHeader: string,
-    @Query('normalizedName') normalizedName: string,
-  ) {
-    const token = authHeader?.split('Bearer ')[1];
-    const userId = await this.validateUser(token);
-    return this.favoritesService.removeFavoriteItem(userId, normalizedName);
+  @ApiResponse({ status: 404, description: 'Item was not removed from favorites' })
+  async removeFavorite(@Req() req, @Query('normalizedName') normalizedName: string) {
+    return this.favoritesService.removeFavoriteItem(req.user.uid, normalizedName);
   }
 
   @Get()
+  @UseGuards(AuthGuard)
   @ApiOperation({ summary: 'Get user favorite items' })
   @ApiResponse({ status: 200, description: 'User favorite items' })
-  @ApiResponse({ status: 404, description: 'failed to load user favorite items' })
-  async getFavorites(@Headers('Authorization') authHeader: string) {
-    const token = authHeader?.split('Bearer ')[1];
-    const userId = await this.validateUser(token);
-    return this.favoritesService.getUserFavorites(userId);
+  @ApiResponse({ status: 404, description: 'Failed to download user fav items' })
+  async getFavorites(@Req() req) {
+    return this.favoritesService.getUserFavorites(req.user.uid);
   }
 }

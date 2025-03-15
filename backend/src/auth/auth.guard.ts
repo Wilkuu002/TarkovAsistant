@@ -1,32 +1,25 @@
-import {
-  CanActivate,
-  ExecutionContext,
-  Injectable,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable, CanActivate, ExecutionContext, UnauthorizedException, Inject } from '@nestjs/common';
 import { FirebaseService } from './firebase.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private readonly firebaseService: FirebaseService) {}
+  constructor(@Inject(FirebaseService) private readonly firebaseService: FirebaseService) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
     const authHeader = request.headers.authorization;
 
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      throw new UnauthorizedException(
-        'Missing or invalid authorization header',
-      );
+      throw new UnauthorizedException('Authorization token is required');
     }
 
-    const token = authHeader.split(' ')[1];
-
+    const token = authHeader.split('Bearer ')[1];
     try {
-      request.user = await this.firebaseService.verifyToken(token);
+      const decodedToken = await this.firebaseService.verifyToken(token);
+      request.user = decodedToken;
       return true;
     } catch (error) {
-      throw new UnauthorizedException('Invalid or expired token');
+      throw new UnauthorizedException('Invalid token');
     }
   }
 }
