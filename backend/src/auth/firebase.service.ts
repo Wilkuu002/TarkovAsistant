@@ -6,6 +6,7 @@ import axios from 'axios';
 
 @Injectable()
 export class FirebaseService {
+  private db: FirebaseFirestore.Firestore;
   constructor(private readonly configService: ConfigService) {
     const credentialsPath = process.env.GOOGLE_APPLICATION_CREDENTIALS;
 
@@ -22,6 +23,10 @@ export class FirebaseService {
         credential: admin.credential.cert(require(fullPath)),
       });
     }
+    this.db = admin.firestore();
+  }
+  getFirestore() {
+    return this.db;
   }
 
   async verifyToken(token: string): Promise<admin.auth.DecodedIdToken> {

@@ -10,7 +10,9 @@ async function bootstrap() {
     .setDescription('API for managing Tarkov Assistant')
     .setVersion('1.0')
     .addTag('auth')
+    .addBearerAuth()
     .build();
+    
 
   const document = SwaggerModule.createDocument(app, options);
 
