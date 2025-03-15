@@ -78,4 +78,17 @@ export class FirebaseService {
       throw new Error("Mail with link was not sent")
     }
   }
+  async deleteUser(uid: string): Promise<void> {
+    try {
+      await admin.auth().deleteUser(uid);
+
+      const userRef = this.db.collection('favorites').doc(uid);
+      await userRef.delete();
+  
+      console.log(`User ${uid} and their data have been deleted.`);
+    } catch (error) {
+      console.error('Error deleting user:', error);
+      throw new Error('Failed to delete user');
+    }
+  }
 }

@@ -1,6 +1,7 @@
-import { Controller, Post, Body, UnauthorizedException } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse,ApiBody  } from '@nestjs/swagger';
+import { Controller, Post, Delete,Body,Req, UnauthorizedException,UseGuards } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiResponse,ApiBody,ApiBearerAuth   } from '@nestjs/swagger';
 import { FirebaseService } from './firebase.service';
+import { AuthGuard } from './auth.guard';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -77,6 +78,24 @@ export class AuthController {
       return {message:'Link to reset password was sent with succes', resetLink}
     }catch(error){
       throw new UnauthorizedException('Faild to send reset link for password')
+    }
+  }
+
+
+  @Delete('delete-account')
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Delete user account' })
+  @ApiResponse({ status: 200, description: 'User account deleted successfully' })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  async deleteAccount(@Req() req) {
+    const userId = req.user.uid;
+
+    try {
+      await this.firebaseService.deleteUser(userId);
+      return { message: 'User account deleted successfully' };
+    } catch (error) {
+      throw new UnauthorizedException('Failed to delete user account');
     }
   }
 }
