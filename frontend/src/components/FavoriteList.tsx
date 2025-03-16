@@ -21,7 +21,7 @@ const FavoriteList = () => {
         });
 
         console.log("Otrzymana odpowiedź z backendu:", response.data);
-        setFavorites(response.data.items || []); // Obsługa pustej odpowiedzi
+        setFavorites(response.data.items || []);
       } catch (error) {
         console.error("Błąd pobierania ulubionych:", error);
         setErrorMessage("Nie udało się pobrać ulubionych przedmiotów.");
@@ -50,8 +50,6 @@ const FavoriteList = () => {
           Accept: "*/*",
         }
       });
-
-      // Usuwamy z listy bez przeładowania
       setFavorites((prevFavorites) => prevFavorites.filter((item) => item !== normalizedName));
     } catch (error) {
       console.error("Błąd usuwania ulubionego przedmiotu:", error);

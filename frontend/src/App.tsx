@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Favorites from "./pages/Favorites";
 import "./App.css"
+import Assistant from "./pages/Assistant";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/" element={<Home />} />       
           <Route path="/login" element={<Login />} />
           <Route path="/favorites" element={<Favorites />} />
+          <Route path="/assistant" element={<Assistant/>}/>
         </Routes>
       </Router>
       </Box>

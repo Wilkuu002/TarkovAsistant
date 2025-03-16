@@ -1,6 +1,6 @@
 import { Container, Typography, Box, Button } from "@mui/material";
 import BackgroundPhoto from "../assets/background_photo.webp";
-import "./HeroSection.css"; 
+import "../styles/HeroSection.css"; 
 import { useNavigate } from "react-router-dom";
 
 const HeroSection = () => {

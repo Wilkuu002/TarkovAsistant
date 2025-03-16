@@ -1,0 +1,24 @@
+.voice-assistant-container {
+    position: relative;
+    height: 400px;
+    width: 100%;
+    display: flex;
+    background-image: url("../assets/komputery.jpg");
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+  }
+  
+  .assistant-window {
+    background-color: rgba(161, 145, 115, 0.8); /* Przezroczyste białe tło */
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0px 4px 15px rgba(154, 136, 102, 0.8); /* Cień w kolorze beżu */
+    width: 50%;
+    max-width: 600px;
+    text-align: center;
+  }
+  
