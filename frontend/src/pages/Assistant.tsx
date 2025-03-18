@@ -3,20 +3,19 @@ import VoiceAssistant from "../components/VoiceAssistant";
 import Navbar from "../components/Navbar";
 import SearchBar from "../components/SearchBar";
 import Instruction from "../components/Instruction";
+import ContinuousVoiceAssistant from "../components/ContinousVocieAssistant";
 
 const Assistant = () => {
   return (
     <>
       <Navbar />
       <Container sx={{ marginTop: 4 }}>
-        {/* Sekcja VoiceAssistant */}
         <Grid container justifyContent="center">
           <Grid item xs={12}>
             <VoiceAssistant />
           </Grid>
         </Grid>
 
-        {/* Sekcja SearchBar i Instruction */}
         <Grid 
           container 
           spacing={3} 
@@ -31,6 +30,9 @@ const Assistant = () => {
             <SearchBar />
           </Grid>
         </Grid>
+      </Container>
+      <Container sx={{ marginTop: 4 }}>
+        <ContinuousVoiceAssistant />
       </Container>
     </>
   );

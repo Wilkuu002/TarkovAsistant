@@ -15,7 +15,7 @@ const VoiceAssistant = () => {
   useEffect(() => {
     if (transcript) {
       console.log("Przetworzona nazwa przedmiotu:", transcript);
-      fetchItemData(transcript.toLowerCase().replace(/\s/g, "-")); // name normalization
+      fetchItemData(transcript.toLowerCase().replace(/\s/g, "-")); 
     }
   }, [transcript]);
 
@@ -24,10 +24,10 @@ const VoiceAssistant = () => {
     try {
       const response = await axios.get(`http://localhost:3000/items/search?normalizedName=${itemName}`);
       setItemData(response.data);
-      setIsFavorite(false); // Resetujemy stan ulubionych po nowym wyszukaniu
+      setIsFavorite(false); 
     } catch (error) {
       console.error("Błąd pobierania danych o przedmiocie:", error);
-      setItemData(null); // Resetujemy dane, jeśli nie znaleziono przedmiotu
+      setItemData(null); 
     }
     setLoading(false);
   };
