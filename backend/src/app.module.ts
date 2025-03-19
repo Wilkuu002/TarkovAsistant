@@ -8,7 +8,7 @@ import { FirebaseService } from './auth/firebase.service';
 @Module({
   imports: [ConfigModule.forRoot({ isGlobal: true }), AuthModule,ItemModule,FavoritesModule],
   providers: [
-    FirebaseService, // Dodajemy FirebaseService
+    FirebaseService,
   ],
 })
 export class AppModule {}

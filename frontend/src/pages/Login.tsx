@@ -51,6 +51,14 @@ const Login = () => {
         <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 3 }}>
           Zaloguj się
         </Button>
+        <Typography sx={{ marginTop: 2,
+    padding: "1px 10px", 
+    borderRadius: "8px", 
+    display: "inline-block",
+    color: "white"}}>
+  New in Tarker?<Button color="primary" onClick={() => navigate("/register")}>Create Account</Button>
+</Typography>
+
       </Box>
     </Container>
   );

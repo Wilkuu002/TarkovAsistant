@@ -6,18 +6,22 @@ import Home from "./pages/Home";
 import Favorites from "./pages/Favorites";
 import "./App.css"
 import Assistant from "./pages/Assistant";
+import Register from "./pages/Register";
+import Navbar from "./components/Navbar";
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <CssBaseline /> {/* Resetuje domyślne style przeglądarki */}
+      <CssBaseline /> 
       <Box className="app-container">
       <Router>
+      <Navbar/>
         <Routes>
           <Route path="/" element={<Home />} />       
           <Route path="/login" element={<Login />} />
           <Route path="/favorites" element={<Favorites />} />
           <Route path="/assistant" element={<Assistant/>}/>
+          <Route path="/register" element={<Register />} />
         </Routes>
       </Router>
       </Box>

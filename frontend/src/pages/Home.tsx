@@ -6,7 +6,6 @@ import { Box } from "@mui/material";
 const Home = () => {
   return (
     <>
-      <Navbar />
       <Box mt={2}>
         <HeroSection />
         <ItemList />

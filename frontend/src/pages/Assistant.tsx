@@ -8,7 +8,6 @@ import ContinuousVoiceAssistant from "../components/ContinousVocieAssistant";
 const Assistant = () => {
   return (
     <>
-      <Navbar />
       <Container sx={{ marginTop: 4 }}>
         <Grid container justifyContent="center">
           <Grid item xs={12}>
