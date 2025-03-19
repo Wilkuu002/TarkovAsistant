@@ -12,7 +12,7 @@ const Assistant = () => {
       <Container sx={{ marginTop: 4 }}>
         <Grid container justifyContent="center">
           <Grid item xs={12}>
-            <VoiceAssistant />
+          <ContinuousVoiceAssistant />
           </Grid>
         </Grid>
 
@@ -30,9 +30,6 @@ const Assistant = () => {
             <SearchBar />
           </Grid>
         </Grid>
-      </Container>
-      <Container sx={{ marginTop: 4 }}>
-        <ContinuousVoiceAssistant />
       </Container>
     </>
   );

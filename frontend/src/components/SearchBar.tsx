@@ -15,7 +15,7 @@ const SearchBar = () => {
       const response = await axios.get(`http://localhost:3000/items/search?normalizedName=${query.toLowerCase().replace(/\s/g, "-")}`);
       setItemData(response.data);
     } catch (error) {
-      console.error("Błąd pobierania danych o przedmiocie:", error);
+      console.error("Error fetching item data:", error);
       setItemData(null);
     }
     setLoading(false);
@@ -33,10 +33,10 @@ const SearchBar = () => {
           },
         }
       );
-      alert("Dodano do ulubionych!");
+      alert("Item added to favorites!");
     } catch (error) {
-      console.error("Błąd dodawania do ulubionych:", error);
-      alert("Nie udało się dodać do ulubionych.");
+      console.error("Error adding item:", error);
+      alert("Error adding item.");
     }
   };
 
@@ -44,24 +44,21 @@ const SearchBar = () => {
     <Card className="assistant-section">
       <CardContent>
         <Typography className="search-bar-title" variant="h6">
-          Wpisz nazwę przedmiotu
+          Type in item name
         </Typography>
         <TextField
           variant="outlined"
           fullWidth
-          placeholder="Np. M855A1"
+          placeholder="Fe. M855A1"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           sx={{ marginTop: 2 }}
           className="search-input"
         />
         <Button
-            variant="contained"
-          className="search-button"
-          onClick={handleSearch}
-          sx={{ marginTop: 2 }}
+            variant="contained" className="search-button" onClick={handleSearch}
         >
-          Szukaj
+          Search
         </Button>
 
         {loading && <CircularProgress sx={{ marginTop: 2 }} />}
@@ -74,11 +71,8 @@ const SearchBar = () => {
           </Typography>
           
         )}
-        <Button variant="contained"
-                className="favorite-button"
-                onClick={addToFavorites}
-              >
-                Dodaj do ulubionych ⭐</Button>
+        <Button variant="contained" className="favorite-button" onClick={addToFavorites}>
+                Add to favorites ⭐</Button>
       </CardContent>
     </Card>
   );

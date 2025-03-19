@@ -1,57 +1,84 @@
 .assistant-section {
-    background-color: rgba(24, 24, 24, 0.95); 
-    padding: 1rem;
-    height: 100%;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border-radius: 10px;
-    box-shadow: 0px 4px 15px rgba(154, 136, 102, 0.8); 
-    color: white;
-  }
-  .search-input {
-    margin-top: 10px;
-    background-color: rgba(0, 0, 0, 0.6); 
-    color: white;
-  }
-  
-  .search-input input {
-    color: white; /* Tekst biały */
-  }
-  
-  .search-input .MuiOutlinedInput-root {
-    border-color: #9a8866; /* Beżowa ramka */
-  }
-  
-  .search-input .MuiOutlinedInput-root:hover fieldset {
-    border-color: #d4b887; /* Jaśniejszy beż po najechaniu */
-  }
-  
-  .search-input .MuiOutlinedInput-root.Mui-focused fieldset {
-    border-color: #d4b887;
-  }
-  
-  .search-button {
-    margin-top: 10px;
-    background-color: #9a8866;
-    color: black;
-  }
-  
-  .search-button:hover {
-    background-color: #d4b887; /* Jaśniejszy beż po najechaniu */
-  }
-  
-  .instruction-list {
-    text-align: left;
-    margin-top: 1rem;
-    padding-left: 1.5rem;
-    list-style-type: none;
-  }
-  
-  .instruction-list li {
-    margin-bottom: 8px;
-    font-size: 1rem;
-  }
-  
+  background-color: rgba(51, 50, 50, 0.95) !important; 
+  padding: 1rem;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  box-shadow: 0px 4px 15px rgba(154, 136, 102, 0.8); 
+  color: white;
+}
+
+.search-input {
+  margin-top: 10px;
+  background-color: rgba(0, 0, 0, 0.6); 
+  color: white;
+}
+
+.search-input input {
+  color: white; 
+}
+
+.search-input .MuiOutlinedInput-root {
+  border-color: #9a8866; 
+}
+
+.search-input .MuiOutlinedInput-root:hover fieldset {
+  border-color: #d4b887; 
+}
+
+.search-input .MuiOutlinedInput-root.Mui-focused fieldset {
+  border-color: #d4b887;
+}
+
+/* Kontener na przyciski */
+.search-buttons-container {
+  display: flex;
+  gap: 10px; /* Odstęp między przyciskami */
+  width: 100%;
+  margin-top: 10px;
+}
+
+.search-button, .favorite-button {
+  flex: 1;
+  height: 45px;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin: 5px !important;
+}
+
+/* Styl dla przycisku wyszukiwania */
+.search-button {
+  background-color: #9a8866;
+  color: black;
+  margin: 5px;
+}
+
+.search-button:hover {
+  background-color: #d4b887; 
+}
+
+/* Styl dla przycisku dodania do ulubionych */
+.favorite-button {
+  background-color: #5e5340;
+  color: white;
+}
+
+.favorite-button:hover {
+  background-color: #7b6a50;
+}
+
+.instruction-list {
+  text-align: left;
+  margin-top: 1rem;
+  padding-left: 1.5rem;
+  list-style-type: none;
+}
+
+.instruction-list li {
+  margin-bottom: 8px;
+  font-size: 1rem;
+}

@@ -21,4 +21,12 @@
     max-width: 600px;
     text-align: center;
   }
+  .voice-assistant-button:hover {
+    background-color: #b59b77;
+    transform: scale(1.05); 
+  }
   
+  .voice-assistant-button:disabled {
+    background-color: #5e5340; 
+    cursor: not-allowed;
+  }

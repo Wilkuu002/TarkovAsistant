@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Button, Card, CardContent, Typography, CircularProgress, Box } from "@mui/material";
 import MicIcon from "@mui/icons-material/Mic";
 import axios from "axios";
@@ -14,49 +14,74 @@ const ContinuousVoiceAssistant = () => {
   const [message, setMessage] = useState<string | null>(null);
   const [itemData, setItemData] = useState<any>(null);
   const [loading, setLoading] = useState(false);
+  const recognitionRef = useRef<SpeechRecognition | null>(null);
+  const waitingForItemRef = useRef(false);
 
   const startListening = () => {
+    if (isListening) {
+      stopListening();
+      return;
+    }
+
     const recognition = getSpeechRecognition();
     if (!recognition) {
       setMessage("Twoja przeglądarka nie obsługuje rozpoznawania mowy.");
       return;
     }
 
-    setMessage("Nasłuchuję... Powiedz 'help'");
+    recognitionRef.current = recognition;
+    setMessage("Im listening... Say 'help' to search");
     setIsListening(true);
 
     recognition.lang = "en-US";
     recognition.continuous = true;
     recognition.interimResults = false;
 
-    let waitingForItem = false;
-
     recognition.onresult = async (event: SpeechRecognitionEvent) => {
       const result = event.results[event.results.length - 1][0].transcript.trim();
       console.log("Rozpoznano:", result);
 
-      if (!waitingForItem && result.toLowerCase() === "help") {
+      if (!waitingForItemRef.current && result.toLowerCase() === "help") {
         setMessage("Słowo kluczowe rozpoznane! Powiedz nazwę przedmiotu...");
-        waitingForItem = true;
-      } else if (waitingForItem) {
-        setMessage(`Wyszukuję: ${result}`);
+        waitingForItemRef.current = true;
+      } else if (waitingForItemRef.current) {
+        setMessage(`Searching: ${result}`);
         recognition.stop(); 
         await fetchItemData(result.toLowerCase().replace(/\s/g, "-"));
-        setIsListening(false);
       }
     };
 
     recognition.onerror = (event: Event) => {
-      console.error("Błąd rozpoznawania mowy:", event);
-      setMessage("Błąd rozpoznawania mowy.");
+      console.error("Voice recognition error:", event);
+      setMessage("Voice recognition error.");
       setIsListening(false);
     };
 
     recognition.onend = () => {
-      if (isListening) recognition.start(); 
+      if (isListening) restartListening();
     };
 
     recognition.start();
+  };
+
+  const stopListening = () => {
+    if (recognitionRef.current) {
+      recognitionRef.current.stop();
+      recognitionRef.current = null;
+    }
+    setIsListening(false);
+    setMessage("Voice recognition is On.");
+  };
+
+  const restartListening = () => {
+    if (recognitionRef.current) {
+      console.log("Restartuję nasłuch na słowo 'help'...");
+      setTimeout(() => {   
+          waitingForItemRef.current = false;
+          recognitionRef.current?.start();
+          setMessage("Listening... say 'help'");   
+      }, 1000);
+    }
   };
 
   const fetchItemData = async (itemName: string) => {
@@ -64,20 +89,24 @@ const ContinuousVoiceAssistant = () => {
     try {
       const response = await axios.get(`http://localhost:3000/items/search?normalizedName=${itemName}`);
       setItemData(response.data);
+      setMessage("Item was found. Say help if you want to search for another item.");
     } catch (error) {
-      console.error("Błąd pobierania danych o przedmiocie:", error);
+      console.error("Error while looking for item:", error);
       setItemData(null);
+      setMessage("Item not found. Say 'help', to try again.");
     }
     setLoading(false);
+    console.log("koniec fetch itema")
+    restartListening()
   };
 
   return (
     <Box className="voice-assistant-container">
       <Card className="assistant-window">
         <CardContent>
-          <Typography variant="h6" fontWeight="bold">Ciągły nasłuch</Typography>
+          <Typography variant="h6" fontWeight="bold">Tarkov asistant</Typography>
           <Button variant="contained" color="primary" startIcon={<MicIcon />} onClick={startListening} disabled={isListening}>
-            {isListening ? "Nasłuchiwanie..." : "Włącz nasłuch"}
+            {isListening ? "Listening..." : "Start BOT"}
           </Button>
 
           {message && <Typography sx={{ marginTop: 2 }}>{message}</Typography>}
@@ -87,10 +116,10 @@ const ContinuousVoiceAssistant = () => {
             <Typography sx={{ marginTop: 3 }}>
               <strong>{itemData.name}</strong>
               <br />
-              Średnia cena 24h: <strong>{itemData.avg24hPrice}₽</strong>
+              Avg 24h price: <strong>{itemData.avg24hPrice}₽</strong>
             </Typography>
           ) : (
-            !loading && message?.includes("Wyszukuję") && <Typography color="error" sx={{ marginTop: 2 }}>Nie znaleziono przedmiotu</Typography>
+            !loading && message?.includes("Wyszukuję") && <Typography color="error" sx={{ marginTop: 2 }}>Item not found</Typography>
           )}
         </CardContent>
       </Card>

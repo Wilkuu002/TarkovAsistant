@@ -61,7 +61,8 @@ const VoiceAssistant = () => {
             Press button and say your item name
           </Typography>
 
-          <Button
+          <Button 
+          className="voice-assistant-button"
             variant="contained"
             color="primary"
             startIcon={<MicIcon />}
