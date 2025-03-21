@@ -1,5 +1,5 @@
 import { ThemeProvider, CssBaseline, Box } from "@mui/material";
-import theme from "./theme"; // Importujemy nasz motyw
+import theme from "./theme";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import Home from "./pages/Home";

@@ -6,15 +6,15 @@
 }
 
 .app-container {
-  background-color: #121212; /* Lekko jaśniejsze tło */
-  min-height: calc(80vh - 40px); /* Wysokość - marginesy */
-  margin: 20px; /* Odstęp od góry i dołu */
-  border-radius: 12px; /* Zaokrąglone rogi */
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Cień dla efektu "okna" */
-  overflow: hidden; /* Zapobiega rozciąganiu się zawartości */
+  background-color: #121212; 
+  min-height: calc(80vh - 40px); 
+  margin: 20px;
+  border-radius: 12px; 
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); 
+  overflow: hidden; 
   padding-bottom: 10px;
-  border: 2px solid #9A8866; /* Beżowe obramowanie */
-  box-shadow: 0px 4px 15px rgba(154, 136, 102, 0.7); /* Beżowy cień */
+  border: 2px solid #9A8866; 
+  box-shadow: 0px 4px 15px rgba(154, 136, 102, 0.7); 
 }
 
 
