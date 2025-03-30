@@ -49,7 +49,7 @@ const SearchBar = () => {
         <TextField
           variant="outlined"
           fullWidth
-          placeholder="Fe. M855A1"
+          placeholder="Fe. water filter"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           sx={{ marginTop: 2 }}
