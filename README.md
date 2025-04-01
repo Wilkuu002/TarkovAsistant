@@ -68,4 +68,3 @@ DODATKOWE INFORMACJE:
 
 - Projekt korzysta z Firebase Authentication do logowania i rejestracji użytkowników oraz Firestore Database do przechowywania ulubionych przedmiotów.
 
-Autor: Kacper Wilk s10058
